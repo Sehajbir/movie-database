@@ -1,0 +1,4 @@
+.scrolled {
+    background-color: #011620 !important;
+    transition: background-color 200ms linear;
+  }
