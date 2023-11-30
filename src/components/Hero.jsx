@@ -111,9 +111,9 @@ function Hero() {
                   <div className='px-8 py-2'>
                     <p className='font-black text-2xl text-white'>Now Playing</p>
                   </div>
-                  {delete res.results[0]}
+                  
                   <Carousel responsive={responsive}>
-                    {res.results.map((r) =>
+                    {res.results.slice(1).map((r) =>
                       <div className='h-96' key={r}>
                         <a onClick={() => navigateToMovie(r)} className='cursor-pointer'>
                           <ItemCard props={r}/>
