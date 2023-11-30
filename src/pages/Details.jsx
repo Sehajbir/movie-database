@@ -25,9 +25,7 @@ function Details() {
 
     const navigateToMovie = (r) =>{
         onClose();
-        console.log(r);
         navigate("/details/"+r.id);
-        window.location.reload();
     }
 
     const responsive = {
@@ -50,6 +48,23 @@ function Details() {
         }
       };
 
+
+      const playTrailer = (r) => {
+        var url = "https://www.youtube.com/results?search_query=";
+        var title = r.title;
+        var t = title.split(" ");
+        var first = true;
+          for(var a in t){
+            if(first){
+              url+=t[a];
+              first = false;
+            }else{
+              url = url + "+" + t[a];
+            }
+          }
+    
+          window.open(url, "_blank");
+      };
 
     useEffect(() => {
         const options = {
@@ -81,6 +96,37 @@ function Details() {
             .catch(err => console.error(err));
     
     }, [])
+
+    useEffect(() => {
+        const options = {
+            method: 'GET',
+            headers: {
+              accept: 'application/json',
+              Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4YTRmZDQxYzk2OGZkZGQzM2ZiNjJkYzFlMGUwYzg4ZiIsInN1YiI6IjY1NTZjMzk0ZWE4NGM3MTA5MzAxNWZlNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.a1WNt2hy3Z1yuZ60WGpYr8DWusnnKQd_vCUDEqK3hc0'
+            }
+          };
+          
+        fetch('https://api.themoviedb.org/3/movie/'+movieId+'?language=en-US', options)
+            .then(response => response.json())
+            .then(response => setDetails(response))
+            .catch(err => console.error(err));
+
+        fetch('https://api.themoviedb.org/3/movie/'+movieId+'/credits?language=en-US', options)
+            .then(response => response.json())
+            .then(response => setCast(response.cast.slice(0, 6)))
+            .catch(err => console.error(err));         
+            
+        fetch('https://api.themoviedb.org/3/movie/'+movieId+'/watch/providers', options)
+            .then(response => response.json())
+            .then(response => setProviders(response.results.CA))
+            .catch(err => console.error(err));
+
+        fetch('https://api.themoviedb.org/3/movie/'+movieId+'/similar?language=en-US&page=1', options)
+            .then(response => response.json())
+            .then(response => setSimilar(response))
+            .catch(err => console.error(err));
+    
+    }, [movieId])
       
       
     const theme = extendTheme({
@@ -164,6 +210,9 @@ function Details() {
                         </div>
                     </div>
                     <div className='flex flex-row-reverse w-[50%] px-8 border-r-2 border-black ' style={{background : "rgba(0,0,0, 0.65)"}}>
+                        <Button onClick={() => playTrailer(details)} className='ml-8 mt-4' colorScheme='red' variant='solid'>
+                            Watch Trailer
+                        </Button>
                         <Button onClick={onOpen} className='ml-8 mt-4' leftIcon={<img className='w-6 h-6' src={add} />} colorScheme='red' variant='solid'>
                             <p className='text-white'>
                                 More like this
