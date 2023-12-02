@@ -31,11 +31,11 @@ To run this project locally, follow these steps:
 1. Clone the repository: `git clone https://github.com/Sehajbir/movie-database.git`
 2. Navigate to the project directory: `cd movie-database`
 3. Install dependencies: `npm install`
-4. Start the development server: `npm start`
+4. Start the development server: `npm run dev`
 
 ## Usage
 
-Once the development server is running, open your browser and visit `http://localhost:3000` to explore the Movie Database React App. Use the search functionality or browse through the movies to view their details.
+Once the development server is running, open your browser and visit `http://localhost:5143` or as specified in terminal to explore the Movie Database React App. Use the search functionality or browse through the movies to view their details.
 
 ## Technologies Used
 
